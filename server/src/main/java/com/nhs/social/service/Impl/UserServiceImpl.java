@@ -14,11 +14,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.HashSet;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author sonng
  */
+@Service
 public class UserServiceImpl implements UserService {
 
     @Autowired
