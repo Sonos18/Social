@@ -6,20 +6,11 @@ package com.nhs.social.pojo;
 
 import java.io.Serializable;
 import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import jakarta.persistence.*;
 
 /**
  *
- * @author sonng
+ * @author ADMIN
  */
 @Entity
 @Table(name = "products")
@@ -43,7 +34,7 @@ public class Products implements Serializable {
     private String description;
     @Column(name = "image")
     private String image;
-    @OneToMany(mappedBy = "products")
+    @OneToMany(mappedBy = "productId")
     private Set<Auction> auctionSet;
 
     public Products() {

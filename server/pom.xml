@@ -17,7 +17,7 @@
         <java.version>17</java.version>
     </properties>
     
-      <dependencies>
+    <dependencies>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -95,13 +95,13 @@
             <artifactId>modelmapper</artifactId>
             <version>3.1.0</version>
         </dependency>
-            <dependency>
-                  <groupId>org.eclipse.persistence</groupId>
-                  <artifactId>jakarta.persistence</artifactId>
-                  <version>2.2.3</version>
-            </dependency>
-      </dependencies>
- <build>
+        <dependency>
+            <groupId>org.eclipse.persistence</groupId>
+            <artifactId>jakarta.persistence</artifactId>
+            <version>2.2.3</version>
+        </dependency>
+    </dependencies>
+    <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

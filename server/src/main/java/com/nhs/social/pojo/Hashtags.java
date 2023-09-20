@@ -6,23 +6,13 @@ package com.nhs.social.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import java.util.Set;
+import jakarta.persistence.*;
+
 
 /**
  *
- * @author sonng
+ * @author ADMIN
  */
 @Entity
 @Table(name = "hashtags")
@@ -44,8 +34,8 @@ public class Hashtags implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "hashtags")
-    private PostHashtags postHashtags;
+    @ManyToMany(mappedBy = "hashtagsSet")
+    private Set<Posts> postsSet;
 
     public Hashtags() {
     }
@@ -78,12 +68,12 @@ public class Hashtags implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public PostHashtags getPostHashtags() {
-        return postHashtags;
+    public Set<Posts> getPostsSet() {
+        return postsSet;
     }
 
-    public void setPostHashtags(PostHashtags postHashtags) {
-        this.postHashtags = postHashtags;
+    public void setPostsSet(Set<Posts> postsSet) {
+        this.postsSet = postsSet;
     }
 
     @Override

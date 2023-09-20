@@ -7,25 +7,11 @@ package com.nhs.social.pojo;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import jakarta.persistence.*;
 
 /**
  *
- * @author sonng
+ * @author ADMIN
  */
 @Entity
 @Table(name = "comments")
@@ -47,23 +33,18 @@ public class Comments implements Serializable {
     private Date createAt;
     @Column(name = "content")
     private String content;
-    @OneToMany(mappedBy = "comments")
+    @OneToMany(mappedBy = "parentCommentId")
     private Set<Comments> commentsSet;
-    @JoinColumns({
-        @JoinColumn(name = "parent_comment_id", referencedColumnName = "comment_id"),
-        @JoinColumn(name = "parent_comment_id", referencedColumnName = "comment_id")})
+    @JoinColumn(name = "parent_comment_id", referencedColumnName = "comment_id")
     @ManyToOne
-    private Comments comments;
+    private Comments parentCommentId;
     @JoinColumns({
-        @JoinColumn(name = "post_id", referencedColumnName = "post_id"),
         @JoinColumn(name = "post_id", referencedColumnName = "post_id")})
     @ManyToOne
     private Posts posts;
-    @JoinColumns({
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id")})
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
-    private Users users;
+    private Users userId;
 
     public Comments() {
     }
@@ -104,12 +85,12 @@ public class Comments implements Serializable {
         this.commentsSet = commentsSet;
     }
 
-    public Comments getComments() {
-        return comments;
+    public Comments getParentCommentId() {
+        return parentCommentId;
     }
 
-    public void setComments(Comments comments) {
-        this.comments = comments;
+    public void setParentCommentId(Comments parentCommentId) {
+        this.parentCommentId = parentCommentId;
     }
 
     public Posts getPosts() {
@@ -120,12 +101,12 @@ public class Comments implements Serializable {
         this.posts = posts;
     }
 
-    public Users getUsers() {
-        return users;
+    public Users getUserId() {
+        return userId;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUserId(Users userId) {
+        this.userId = userId;
     }
 
     @Override

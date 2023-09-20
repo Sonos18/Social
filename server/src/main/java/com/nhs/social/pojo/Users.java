@@ -7,25 +7,11 @@ package com.nhs.social.pojo;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import jakarta.persistence.*;
 
 /**
  *
- * @author sonng
+ * @author ADMIN
  */
 @Entity
 @Table(name = "users")
@@ -62,23 +48,16 @@ public class Users implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @JoinTable(name = "likes", joinColumns = {
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id")}, inverseJoinColumns = {
-        @JoinColumn(name = "post_id", referencedColumnName = "post_id"),
-        @JoinColumn(name = "post_id", referencedColumnName = "post_id")})
-    @ManyToMany
-    private Set<Posts> postsSet;
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "userId")
     private Set<Comments> commentsSet;
-    @OneToMany(mappedBy = "bidderId")
-    private Set<Auctionhistory> auctionhistorySet;
-    @OneToMany(mappedBy = "users")
-    private Set<Posts> postsSet1;
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "userId")
+    private Set<Posts> postsSet;
+    @OneToMany(mappedBy = "userId")
     private Set<Notifications> notificationsSet;
-    @OneToMany(mappedBy = "users")
+    @OneToMany(mappedBy = "winnerUserId")
     private Set<Auction> auctionSet;
+    @OneToMany(mappedBy = "userId")
+    private Set<Likes> likesSet;
 
     public Users() {
     }
@@ -150,14 +129,6 @@ public class Users implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Set<Posts> getPostsSet() {
-        return postsSet;
-    }
-
-    public void setPostsSet(Set<Posts> postsSet) {
-        this.postsSet = postsSet;
-    }
-
     public Set<Comments> getCommentsSet() {
         return commentsSet;
     }
@@ -166,20 +137,12 @@ public class Users implements Serializable {
         this.commentsSet = commentsSet;
     }
 
-    public Set<Auctionhistory> getAuctionhistorySet() {
-        return auctionhistorySet;
+    public Set<Posts> getPostsSet() {
+        return postsSet;
     }
 
-    public void setAuctionhistorySet(Set<Auctionhistory> auctionhistorySet) {
-        this.auctionhistorySet = auctionhistorySet;
-    }
-
-    public Set<Posts> getPostsSet1() {
-        return postsSet1;
-    }
-
-    public void setPostsSet1(Set<Posts> postsSet1) {
-        this.postsSet1 = postsSet1;
+    public void setPostsSet(Set<Posts> postsSet) {
+        this.postsSet = postsSet;
     }
 
     public Set<Notifications> getNotificationsSet() {
@@ -196,6 +159,14 @@ public class Users implements Serializable {
 
     public void setAuctionSet(Set<Auction> auctionSet) {
         this.auctionSet = auctionSet;
+    }
+
+    public Set<Likes> getLikesSet() {
+        return likesSet;
+    }
+
+    public void setLikesSet(Set<Likes> likesSet) {
+        this.likesSet = likesSet;
     }
 
     @Override

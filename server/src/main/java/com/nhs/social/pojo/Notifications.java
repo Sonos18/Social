@@ -6,24 +6,12 @@ package com.nhs.social.pojo;
 
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import jakarta.persistence.*;
+
 
 /**
  *
- * @author sonng
+ * @author ADMIN
  */
 @Entity
 @Table(name = "notifications")
@@ -48,16 +36,12 @@ public class Notifications implements Serializable {
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
     private Date createdAt;
-    @JoinColumns({
-        @JoinColumn(name = "target_id", referencedColumnName = "post_id"),
-        @JoinColumn(name = "target_id", referencedColumnName = "post_id")})
+    @JoinColumn(name = "target_id", referencedColumnName = "post_id")
     @ManyToOne
-    private Posts posts;
-    @JoinColumns({
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id")})
+    private Posts targetId;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
-    private Users users;
+    private Users userId;
 
     public Notifications() {
     }
@@ -98,20 +82,20 @@ public class Notifications implements Serializable {
         this.createdAt = createdAt;
     }
 
-    public Posts getPosts() {
-        return posts;
+    public Posts getTargetId() {
+        return targetId;
     }
 
-    public void setPosts(Posts posts) {
-        this.posts = posts;
+    public void setTargetId(Posts targetId) {
+        this.targetId = targetId;
     }
 
-    public Users getUsers() {
-        return users;
+    public Users getUserId() {
+        return userId;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUserId(Users userId) {
+        this.userId = userId;
     }
 
     @Override

@@ -4,31 +4,15 @@
  */
 package com.nhs.social.pojo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
+import jakarta.persistence.*;
 
 /**
  *
- * @author sonng
+ * @author ADMIN
  */
 @Entity
 @Table(name = "posts")
@@ -63,19 +47,24 @@ public class Posts implements Serializable {
     private Boolean isLocked;
     @Column(name = "isAuction")
     private Boolean isAuction;
-    @ManyToMany(mappedBy = "postsSet")
-    private Set<Users> usersSet;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "posts")
-    private PostHashtags postHashtags;
+    @JoinTable(name = "post_hashtags", joinColumns = {
+        @JoinColumn(name = "post_id", referencedColumnName = "post_id")}, inverseJoinColumns = {
+        @JoinColumn(name = "hashtag_id", referencedColumnName = "hashtag_id")})
+    @ManyToMany
+    private Set<Hashtags> hashtagsSet;
     @OneToMany(mappedBy = "posts")
     private Set<Comments> commentsSet;
-    @JoinColumns({
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id"),
-        @JoinColumn(name = "user_id", referencedColumnName = "user_id")})
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
-    private Users users;
-    @OneToMany(mappedBy = "posts")
+    private Users userId;
+    @JsonIgnore
+    @OneToMany(mappedBy = "targetId")
     private Set<Notifications> notificationsSet;
+    @JsonIgnore
+    @OneToMany(mappedBy = "postId")
+    private Set<Auction> auctionSet;
+    @OneToMany(mappedBy = "postId")
+    private Set<Likes> likesSet;
 
     public Posts() {
     }
@@ -140,20 +129,12 @@ public class Posts implements Serializable {
         this.isAuction = isAuction;
     }
 
-    public Set<Users> getUsersSet() {
-        return usersSet;
+    public Set<Hashtags> getHashtagsSet() {
+        return hashtagsSet;
     }
 
-    public void setUsersSet(Set<Users> usersSet) {
-        this.usersSet = usersSet;
-    }
-
-    public PostHashtags getPostHashtags() {
-        return postHashtags;
-    }
-
-    public void setPostHashtags(PostHashtags postHashtags) {
-        this.postHashtags = postHashtags;
+    public void setHashtagsSet(Set<Hashtags> hashtagsSet) {
+        this.hashtagsSet = hashtagsSet;
     }
 
     public Set<Comments> getCommentsSet() {
@@ -164,12 +145,12 @@ public class Posts implements Serializable {
         this.commentsSet = commentsSet;
     }
 
-    public Users getUsers() {
-        return users;
+    public Users getUserId() {
+        return userId;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setUserId(Users userId) {
+        this.userId = userId;
     }
 
     public Set<Notifications> getNotificationsSet() {
@@ -178,6 +159,22 @@ public class Posts implements Serializable {
 
     public void setNotificationsSet(Set<Notifications> notificationsSet) {
         this.notificationsSet = notificationsSet;
+    }
+
+    public Set<Auction> getAuctionSet() {
+        return auctionSet;
+    }
+
+    public void setAuctionSet(Set<Auction> auctionSet) {
+        this.auctionSet = auctionSet;
+    }
+
+    public Set<Likes> getLikesSet() {
+        return likesSet;
+    }
+
+    public void setLikesSet(Set<Likes> likesSet) {
+        this.likesSet = likesSet;
     }
 
     @Override
@@ -204,5 +201,5 @@ public class Posts implements Serializable {
     public String toString() {
         return "com.nhs.social.pojo.Posts[ postId=" + postId + " ]";
     }
-    
+
 }

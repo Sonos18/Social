@@ -4,12 +4,10 @@
  */
 package com.nhs.social.service.Impl;
 
-import com.cloudinary.utils.ObjectUtils;
 import com.nhs.social.pojo.Users;
 import com.nhs.social.repository.UserRepository;
 import com.nhs.social.service.ImgService;
 import com.nhs.social.service.UserService;
-import java.io.IOException;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -19,8 +17,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.HashSet;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
