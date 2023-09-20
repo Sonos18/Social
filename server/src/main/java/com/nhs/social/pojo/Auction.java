@@ -8,8 +8,21 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Set;
-import jakarta.persistence.*;
-
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -48,11 +61,6 @@ public class Auction implements Serializable {
     private BigDecimal winningBid;
     @OneToMany(mappedBy = "auctionId")
     private Set<Auctionhistory> auctionhistorySet;
-    @JoinColumns({
-        @JoinColumn(name = "post_id", referencedColumnName = "post_id"),
-        @JoinColumn(name = "post_id", referencedColumnName = "post_id")})
-    @ManyToOne
-    private Posts posts;
     @JoinColumns({
         @JoinColumn(name = "product_id", referencedColumnName = "id"),
         @JoinColumn(name = "product_id", referencedColumnName = "id")})
@@ -125,14 +133,6 @@ public class Auction implements Serializable {
 
     public void setAuctionhistorySet(Set<Auctionhistory> auctionhistorySet) {
         this.auctionhistorySet = auctionhistorySet;
-    }
-
-    public Posts getPosts() {
-        return posts;
-    }
-
-    public void setPosts(Posts posts) {
-        this.posts = posts;
     }
 
     public Products getProducts() {

@@ -7,7 +7,24 @@ package com.nhs.social.pojo;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
-import jakarta.persistence.*;
+import javax.persistence.Basic;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 /**
  *
@@ -59,8 +76,6 @@ public class Posts implements Serializable {
     private Users users;
     @OneToMany(mappedBy = "posts")
     private Set<Notifications> notificationsSet;
-    @OneToMany(mappedBy = "posts")
-    private Set<Auction> auctionSet;
 
     public Posts() {
     }
@@ -163,14 +178,6 @@ public class Posts implements Serializable {
 
     public void setNotificationsSet(Set<Notifications> notificationsSet) {
         this.notificationsSet = notificationsSet;
-    }
-
-    public Set<Auction> getAuctionSet() {
-        return auctionSet;
-    }
-
-    public void setAuctionSet(Set<Auction> auctionSet) {
-        this.auctionSet = auctionSet;
     }
 
     @Override

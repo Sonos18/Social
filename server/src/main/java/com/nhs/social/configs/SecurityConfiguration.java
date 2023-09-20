@@ -4,7 +4,6 @@
  */
 package com.nhs.social.configs;
 
-
 import com.nhs.social.security.AuthEntryPointJwt;
 import com.nhs.social.security.AuthTokenFilter;
 import com.nhs.social.service.UserService;
@@ -29,11 +28,6 @@ public class SecurityConfiguration {
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
 
-    @Bean
-    public AuthTokenFilter authenticationJwtTokenFilter() {
-        return new AuthTokenFilter();
-    }
-
     @Autowired
     private UserService userService;
 
@@ -53,10 +47,15 @@ public class SecurityConfiguration {
         return authProvider;
     }
 
-   @Bean
-  public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
-    return authConfig.getAuthenticationManager();
-  }
+    @Bean
+    public AuthTokenFilter authenticationJwtTokenFilter() {
+        return new AuthTokenFilter();
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
+        return authConfig.getAuthenticationManager();
+    }
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -69,7 +68,7 @@ public class SecurityConfiguration {
 
         http.authenticationProvider(authenticationProvider());
 
-        http.addFilterBefore(authenticationJwtTokenFilter(  ), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

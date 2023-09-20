@@ -11,6 +11,15 @@
     <class>com.nhs.social.pojo.PostHashtags</class>
     <class>com.nhs.social.pojo.Auctionhistory</class>
     <class>com.nhs.social.pojo.Posts</class>
+    <class>com.nhs.social.pojo.Auctionhistory_1</class>
+    <class>com.nhs.social.pojo.Posts_1</class>
+    <class>com.nhs.social.pojo.Auction_1</class>
+    <class>com.nhs.social.pojo.Notifications_1</class>
+    <class>com.nhs.social.pojo.Hashtags_1</class>
+    <class>com.nhs.social.pojo.PostHashtags_1</class>
+    <class>com.nhs.social.pojo.Users_1</class>
+    <class>com.nhs.social.pojo.Comments_1</class>
+    <class>com.nhs.social.pojo.Products_1</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mxh?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>

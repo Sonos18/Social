@@ -5,8 +5,9 @@
 package com.nhs.social.pojo;
 
 import java.io.Serializable;
-import jakarta.persistence.*;
-
+import javax.persistence.Basic;
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 
 /**
  *
