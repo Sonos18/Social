@@ -4,19 +4,23 @@
  */
 package com.nhs.social.service.Impl;
 
+import com.nhs.social.Dto.UsersDto;
 import com.nhs.social.pojo.Users;
 import com.nhs.social.repository.UserRepository;
 import com.nhs.social.service.ImgService;
 import com.nhs.social.service.UserService;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -66,6 +70,31 @@ public class UserServiceImpl implements UserService {
         u.setRole("USER");
         u.setAvatar(this.imgService.Cloudinary(file).get("secure_url").toString());
         return UserRepository.save(u);
+    }
+
+    @Override
+    public UsersDto toUserDto(Users user) {
+        UsersDto userDto=UsersDto.builder()
+                .avatar(user.getAvatar())
+                .username(user.getUsername())
+                .build();
+        return userDto;
+    }
+
+    @Override
+    public List<UsersDto> findAll() {
+        List<Users> userses=this.UserRepository.findAll(Sort.by(Sort.Direction.ASC,"createdAt"));
+        List<UsersDto>usersDtos=new ArrayList<>();
+        userses.forEach(user->{
+            usersDtos.add(this.toUserDto(user));
+        });
+        return usersDtos;
+        
+    }
+
+    @Override
+    public void deleteUser(Users user) {
+        this.UserRepository.delete(user);
     }
 
 }

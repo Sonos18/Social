@@ -10,7 +10,7 @@ import jakarta.persistence.*;
 
 /**
  *
- * @author ADMIN
+ * @author sonng
  */
 @Entity
 @Table(name = "products")
@@ -36,6 +36,9 @@ public class Products implements Serializable {
     private String image;
     @OneToMany(mappedBy = "productId")
     private Set<Auction> auctionSet;
+    @JoinColumn(name = "category_id", referencedColumnName = "category_id")
+    @ManyToOne
+    private Category categoryId;
 
     public Products() {
     }
@@ -82,6 +85,14 @@ public class Products implements Serializable {
 
     public void setAuctionSet(Set<Auction> auctionSet) {
         this.auctionSet = auctionSet;
+    }
+
+    public Category getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Category categoryId) {
+        this.categoryId = categoryId;
     }
 
     @Override

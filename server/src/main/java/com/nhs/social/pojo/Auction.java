@@ -7,10 +7,12 @@ package com.nhs.social.pojo;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.Set;
 import jakarta.persistence.*;
+
 /**
  *
- * @author ADMIN
+ * @author sonng
  */
 @Entity
 @Table(name = "auction")
@@ -43,12 +45,14 @@ public class Auction implements Serializable {
     private BigDecimal buyoutPrice;
     @Column(name = "winning_bid")
     private BigDecimal winningBid;
-    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
-    @ManyToOne
-    private Posts postId;
+    @OneToMany(mappedBy = "auctionId")
+    private Set<Auctionhistory> auctionhistorySet;
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     @ManyToOne
     private Products productId;
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    @ManyToOne
+    private Users userId;
     @JoinColumn(name = "winner_user_id", referencedColumnName = "user_id")
     @ManyToOne
     private Users winnerUserId;
@@ -108,12 +112,12 @@ public class Auction implements Serializable {
         this.winningBid = winningBid;
     }
 
-    public Posts getPostId() {
-        return postId;
+    public Set<Auctionhistory> getAuctionhistorySet() {
+        return auctionhistorySet;
     }
 
-    public void setPostId(Posts postId) {
-        this.postId = postId;
+    public void setAuctionhistorySet(Set<Auctionhistory> auctionhistorySet) {
+        this.auctionhistorySet = auctionhistorySet;
     }
 
     public Products getProductId() {
@@ -122,6 +126,14 @@ public class Auction implements Serializable {
 
     public void setProductId(Products productId) {
         this.productId = productId;
+    }
+
+    public Users getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Users userId) {
+        this.userId = userId;
     }
 
     public Users getWinnerUserId() {

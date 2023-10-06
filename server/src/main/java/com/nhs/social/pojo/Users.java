@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 
 /**
  *
- * @author ADMIN
+ * @author sonng
  */
 @Entity
 @Table(name = "users")
@@ -50,12 +50,16 @@ public class Users implements Serializable {
     private Date createdAt;
     @OneToMany(mappedBy = "userId")
     private Set<Comments> commentsSet;
+    @OneToMany(mappedBy = "bidderId")
+    private Set<Auctionhistory> auctionhistorySet;
     @OneToMany(mappedBy = "userId")
     private Set<Posts> postsSet;
     @OneToMany(mappedBy = "userId")
     private Set<Notifications> notificationsSet;
-    @OneToMany(mappedBy = "winnerUserId")
+    @OneToMany(mappedBy = "userId")
     private Set<Auction> auctionSet;
+    @OneToMany(mappedBy = "winnerUserId")
+    private Set<Auction> auctionSet1;
     @OneToMany(mappedBy = "userId")
     private Set<Likes> likesSet;
 
@@ -137,6 +141,14 @@ public class Users implements Serializable {
         this.commentsSet = commentsSet;
     }
 
+    public Set<Auctionhistory> getAuctionhistorySet() {
+        return auctionhistorySet;
+    }
+
+    public void setAuctionhistorySet(Set<Auctionhistory> auctionhistorySet) {
+        this.auctionhistorySet = auctionhistorySet;
+    }
+
     public Set<Posts> getPostsSet() {
         return postsSet;
     }
@@ -159,6 +171,14 @@ public class Users implements Serializable {
 
     public void setAuctionSet(Set<Auction> auctionSet) {
         this.auctionSet = auctionSet;
+    }
+
+    public Set<Auction> getAuctionSet1() {
+        return auctionSet1;
+    }
+
+    public void setAuctionSet1(Set<Auction> auctionSet1) {
+        this.auctionSet1 = auctionSet1;
     }
 
     public Set<Likes> getLikesSet() {

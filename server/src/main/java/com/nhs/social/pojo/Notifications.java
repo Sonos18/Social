@@ -11,7 +11,7 @@ import jakarta.persistence.*;
 
 /**
  *
- * @author ADMIN
+ * @author sonng
  */
 @Entity
 @Table(name = "notifications")

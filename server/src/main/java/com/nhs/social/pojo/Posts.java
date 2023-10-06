@@ -4,7 +4,6 @@
  */
 package com.nhs.social.pojo;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -12,7 +11,7 @@ import jakarta.persistence.*;
 
 /**
  *
- * @author ADMIN
+ * @author sonng
  */
 @Entity
 @Table(name = "posts")
@@ -23,8 +22,7 @@ import jakarta.persistence.*;
     @NamedQuery(name = "Posts.findByCreatedAt", query = "SELECT p FROM Posts p WHERE p.createdAt = :createdAt"),
     @NamedQuery(name = "Posts.findByUpdatedAt", query = "SELECT p FROM Posts p WHERE p.updatedAt = :updatedAt"),
     @NamedQuery(name = "Posts.findByImage", query = "SELECT p FROM Posts p WHERE p.image = :image"),
-    @NamedQuery(name = "Posts.findByIsLocked", query = "SELECT p FROM Posts p WHERE p.isLocked = :isLocked"),
-    @NamedQuery(name = "Posts.findByIsAuction", query = "SELECT p FROM Posts p WHERE p.isAuction = :isAuction")})
+    @NamedQuery(name = "Posts.findByIsLocked", query = "SELECT p FROM Posts p WHERE p.isLocked = :isLocked")})
 public class Posts implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,26 +41,20 @@ public class Posts implements Serializable {
     private Date updatedAt;
     @Column(name = "image")
     private String image;
-    @Column(name = "isLocked")
+    @Column(name = "is_locked")
     private Boolean isLocked;
-    @Column(name = "isAuction")
-    private Boolean isAuction;
     @JoinTable(name = "post_hashtags", joinColumns = {
         @JoinColumn(name = "post_id", referencedColumnName = "post_id")}, inverseJoinColumns = {
         @JoinColumn(name = "hashtag_id", referencedColumnName = "hashtag_id")})
     @ManyToMany
     private Set<Hashtags> hashtagsSet;
-    @OneToMany(mappedBy = "posts")
+    @OneToMany(mappedBy = "postId")
     private Set<Comments> commentsSet;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private Users userId;
-    @JsonIgnore
     @OneToMany(mappedBy = "targetId")
     private Set<Notifications> notificationsSet;
-    @JsonIgnore
-    @OneToMany(mappedBy = "postId")
-    private Set<Auction> auctionSet;
     @OneToMany(mappedBy = "postId")
     private Set<Likes> likesSet;
 
@@ -121,14 +113,6 @@ public class Posts implements Serializable {
         this.isLocked = isLocked;
     }
 
-    public Boolean getIsAuction() {
-        return isAuction;
-    }
-
-    public void setIsAuction(Boolean isAuction) {
-        this.isAuction = isAuction;
-    }
-
     public Set<Hashtags> getHashtagsSet() {
         return hashtagsSet;
     }
@@ -159,14 +143,6 @@ public class Posts implements Serializable {
 
     public void setNotificationsSet(Set<Notifications> notificationsSet) {
         this.notificationsSet = notificationsSet;
-    }
-
-    public Set<Auction> getAuctionSet() {
-        return auctionSet;
-    }
-
-    public void setAuctionSet(Set<Auction> auctionSet) {
-        this.auctionSet = auctionSet;
     }
 
     public Set<Likes> getLikesSet() {
@@ -201,5 +177,5 @@ public class Posts implements Serializable {
     public String toString() {
         return "com.nhs.social.pojo.Posts[ postId=" + postId + " ]";
     }
-
+    
 }

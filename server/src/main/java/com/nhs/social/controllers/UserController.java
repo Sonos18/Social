@@ -46,7 +46,7 @@ public class UserController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
-    @PostMapping("/register")
+    @PostMapping("/register/")
     public ResponseEntity<?> register(@RequestParam Map<String, String> params, MultipartFile file) {
         if (userService.addUser(params, file) != null) {
             return ResponseEntity.ok("User registered successfully!");
@@ -72,11 +72,11 @@ public class UserController {
         SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 
-    @GetMapping("/current_user")
+    @GetMapping("/current_user/")
     public ResponseEntity<?> currentUser(Principal user) {
         if (user != null) {
             Users currentUser = this.userService.findUserByUsername(user.getName());
-            return new ResponseEntity<>(currentUser, HttpStatus.OK);
+            return new ResponseEntity<>(this.userService.toUserDto(currentUser), HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }

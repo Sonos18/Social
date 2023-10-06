@@ -9,9 +9,10 @@ import java.util.Date;
 import java.util.Set;
 import jakarta.persistence.*;
 
+
 /**
  *
- * @author ADMIN
+ * @author sonng
  */
 @Entity
 @Table(name = "comments")
@@ -38,10 +39,9 @@ public class Comments implements Serializable {
     @JoinColumn(name = "parent_comment_id", referencedColumnName = "comment_id")
     @ManyToOne
     private Comments parentCommentId;
-    @JoinColumns({
-        @JoinColumn(name = "post_id", referencedColumnName = "post_id")})
+    @JoinColumn(name = "post_id", referencedColumnName = "post_id")
     @ManyToOne
-    private Posts posts;
+    private Posts postId;
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     @ManyToOne
     private Users userId;
@@ -93,12 +93,12 @@ public class Comments implements Serializable {
         this.parentCommentId = parentCommentId;
     }
 
-    public Posts getPosts() {
-        return posts;
+    public Posts getPostId() {
+        return postId;
     }
 
-    public void setPosts(Posts posts) {
-        this.posts = posts;
+    public void setPostId(Posts postId) {
+        this.postId = postId;
     }
 
     public Users getUserId() {

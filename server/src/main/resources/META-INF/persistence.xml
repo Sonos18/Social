@@ -21,6 +21,10 @@
     <class>com.nhs.social.pojo.Comments_1</class>
     <class>com.nhs.social.pojo.Products_1</class>
     <class>com.nhs.social.pojo.Likes</class>
+    <class>com.nhs.social.pojo.Likes_1</class>
+    <class>com.nhs.social.pojo.Category</class>
+    <class>com.nhs.social.pojo.Report</class>
+    <class>com.nhs.social.pojo.Category_1</class>
     <properties>
       <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/mxh?zeroDateTimeBehavior=CONVERT_TO_NULL"/>
       <property name="javax.persistence.jdbc.user" value="root"/>
