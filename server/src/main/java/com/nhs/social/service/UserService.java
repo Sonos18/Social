@@ -4,9 +4,10 @@
  */
 package com.nhs.social.service;
 
+import com.nhs.social.Dto.PageDto;
+import com.nhs.social.Dto.PageUserDto;
 import com.nhs.social.Dto.UsersDto;
 import com.nhs.social.pojo.Users;
-import java.util.List;
 import java.util.Map;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.multipart.MultipartFile;
@@ -18,7 +19,8 @@ import org.springframework.web.multipart.MultipartFile;
 public interface UserService extends UserDetailsService{
     Users findUserByUsername(String username);
     Users addUser(Map<String,String>params, MultipartFile file);
+    Users loadUserByGoogle(Map<String, String> params);
     UsersDto toUserDto(Users user);
-    List<UsersDto> findAll();
+    PageUserDto findAll(int page);
     void deleteUser(Users user);
 }

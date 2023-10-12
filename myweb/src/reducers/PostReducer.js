@@ -1,6 +1,7 @@
 // postReducer.js
 const initialState = {
   posts: [],
+  totalPage: 0,
   loading: true,
 };
 
@@ -15,7 +16,8 @@ const postReducer = (state = initialState, action) => {
       return {
         ...state,
         loading: false,
-        posts: action.payload,
+        posts: action.payload.posts,
+        totalPage: action.payload.totalPage,
       };
     case "CREATE_POST":
       return {
@@ -26,21 +28,21 @@ const postReducer = (state = initialState, action) => {
     case "READ_POST":
       // Xử lý đọc bài viết theo ID
       return state;
-      case "LOCK_POST":
-        const lockedPostId = action.payload;
-        const lockPost = state.posts.map((post) => {
-          if (post.id === lockedPostId) {
-            return {
-              ...post,
-              locked: !post.locked,
-            };
-          }
-          return post;
-        });
-        return {
-          ...state,
-          posts: lockPost,
-        };
+    case "LOCK_POST":
+      const lockedPostId = action.payload;
+      const lockPost = state.posts.map((post) => {
+        if (post.id === lockedPostId) {
+          return {
+            ...post,
+            locked: !post.locked,
+          };
+        }
+        return post;
+      });
+      return {
+        ...state,
+        posts: lockPost,
+      };
     case "UPDATE_POST":
       const { postId, updatedPost } = action.payload;
       const updatedPosts = state.posts.map((post) => {

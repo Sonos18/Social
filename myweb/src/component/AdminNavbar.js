@@ -1,10 +1,10 @@
-import { useState } from "react";
 
-const AdminNavbar = () => {
-  const [indexActive, setIndexActive] = useState(0);
+const AdminNavbar = ({indexActive,setIndexActive,setDataChart}) => {
   const handleActive = (i) => {
+    setDataChart([]);
     setIndexActive(i);
   };
+  
   const component = [
     { text: "Users", com: true },
     { text: "ReportForPost", com: true },

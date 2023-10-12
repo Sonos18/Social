@@ -6,6 +6,7 @@ package com.nhs.social.service.Impl;
 
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
+import com.nhs.social.Dto.PageDto;
 import com.nhs.social.Dto.PostDto;
 import com.nhs.social.Dto.UsersDto;
 import com.nhs.social.pojo.Hashtags;
@@ -27,6 +28,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -47,13 +51,19 @@ public class PostServiceImpl implements PostService {
     private LikeService likeService;
 
     @Override
-    public List<PostDto> getPosts() {
-        List<Posts> posts = this.postRepository.findAllByIsLockedFalseOrderByCreatedAtDesc();
+    public PageDto getPostsByPage(int page) {
+        PageRequest pageable = PageRequest.of(page, 5, Sort.by("createdAt").descending());
+        Page<Posts> postPage = this.postRepository.findAllUnlocked(pageable);
+
         List<PostDto> postDtos = new ArrayList<>();
-        posts.forEach(p -> {
+        postPage.getContent().forEach(p -> {
             postDtos.add(this.toPostDto(p));
         });
-        return postDtos;
+        PageDto pageDto = PageDto.builder()
+                .postDto(postDtos)
+                .totalPage(postPage.getTotalPages())
+                .build();
+        return pageDto;
     }
 
     @Override
@@ -75,7 +85,7 @@ public class PostServiceImpl implements PostService {
         p.setImage(postDto.getFile());
         p.setIsLocked(Boolean.FALSE);
         p.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
-        if (postDto.getHashtags() != null&&!postDto.getHashtags().isEmpty()) {
+        if (postDto.getHashtags() != null && !postDto.getHashtags().isEmpty()) {
             Set<Hashtags> hashtagses = new HashSet<>();
             for (String hString : postDto.getHashtags()) {
                 Hashtags h = new Hashtags();
@@ -87,7 +97,7 @@ public class PostServiceImpl implements PostService {
                 hashtagses.add(hashtagRepository.findByContent(hString));
             }
             p.setHashtagsSet(hashtagses);
-        } 
+        }
         p.setUserId(user);
         return this.postRepository.save(p);
     }

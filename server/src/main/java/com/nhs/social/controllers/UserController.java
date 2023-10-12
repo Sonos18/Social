@@ -56,17 +56,19 @@ public class UserController {
 
     @PostMapping(path = "/login/")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody Login login) throws Exception {
-
         authenticate(login.getUsername(), login.getPassword());
         final UserDetails userDetails = userService.loadUserByUsername(login.getUsername());
-        Users user = userService.findUserByUsername(userDetails.getUsername());
-
         String jwtResponse = JwtUtils.generateJwtToken(userDetails);
-
         return ResponseEntity.ok().body(jwtResponse);
-
     }
 
+//     @PostMapping(path = "/loginWithGg/")
+//    public ResponseEntity<?> loginWithGg(@RequestParam Map<String, String> params) throws Exception {
+//        Users user=this.userService.loadUserWithGoofle(params);
+//        final UserDetails userDetails = userService.loadUserByUsername(login.getUsername());
+//        String jwtResponse = JwtUtils.generateJwtToken(userDetails);
+//        return ResponseEntity.ok().body(jwtResponse);
+//    }
     private void authenticate(String username, String password) throws Exception {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
         SecurityContextHolder.getContext().setAuthentication(authentication);

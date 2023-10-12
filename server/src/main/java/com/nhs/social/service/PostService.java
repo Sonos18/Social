@@ -4,6 +4,7 @@
  */
 package com.nhs.social.service;
 
+import com.nhs.social.Dto.PageDto;
 import com.nhs.social.Dto.PostDto;
 import com.nhs.social.pojo.Posts;
 import com.nhs.social.pojo.Users;
@@ -16,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
  */
 public interface PostService {
     
-    List<PostDto> getPosts();
+    PageDto getPostsByPage(int page);
 
     Posts addPost(PostDto p,Users user);
 

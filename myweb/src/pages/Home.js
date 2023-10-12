@@ -11,6 +11,7 @@ import PostOption from "../component/PostOption";
 import { useDispatch, useSelector } from "react-redux";
 import { FunctionPosts, updatePost } from "../reducers/PostActions";
 import Loading from "../component/Loading";
+import NavPage from "../component/NavPage";
 
 const Home = ({ searchTerm }) => {
   const [username, setUserName] = useState(null);
@@ -22,13 +23,18 @@ const Home = ({ searchTerm }) => {
   const dispatchh = useDispatch();
   const [isLoading, setIsLoading] = useState(false);
   const posts = useSelector((state) => state.posts.posts);
-
-  if (user === null) navigate("/login");
+  const totalPage = useSelector((state) => state.posts.totalPage);
+  const [page, setPage] = useState(0);
   useEffect(() => {
-    dispatchh(FunctionPosts());
-    setIsLoading(false);
-  }, [dispatchh]);
-
+    if (user === null) navigate("/login");
+    else {
+      dispatchh(FunctionPosts(page));
+      setIsLoading(false);
+    }
+  }, [dispatchh, page]);
+  const onButtonClick=(i)=>{
+    setPage(i-1);
+  }
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -127,8 +133,6 @@ const Home = ({ searchTerm }) => {
     <>
       {posts &&
         posts.map((p) => {
-          // let url = `/posts/${p.id}`;
-          // let url2 = `/posts/${p.id}/report`;
           return (
             <>
               <div className="mt-4 mb-1 m-auto overflow-hidden rounded-lg shadow-lg cursor-pointer h-90 w-60 md:w-1/2">
@@ -264,13 +268,16 @@ const Home = ({ searchTerm }) => {
             </>
           );
         })}
+      <NavPage totalPage={totalPage} onButtonClick={onButtonClick}/>
       <button
         onClick={handleOpen}
         className="fixed bottom-0 right-0 bg-blue-500 text-white px-4 py-2 rounded"
       >
         Đăng bài
       </button>
-      {isOpen && <PostPopup handleLoading={handleLoading} handleClose={handleClose} />}
+      {isOpen && (
+        <PostPopup handleLoading={handleLoading} handleClose={handleClose} />
+      )}
       {isLoading && <Loading />}
     </>
   );

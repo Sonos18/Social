@@ -4,6 +4,8 @@
  */
 package com.nhs.social.service.Impl;
 
+import com.nhs.social.Dto.PageDto;
+import com.nhs.social.Dto.PageUserDto;
 import com.nhs.social.Dto.UsersDto;
 import com.nhs.social.pojo.Users;
 import com.nhs.social.repository.UserRepository;
@@ -20,6 +22,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -74,27 +78,42 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UsersDto toUserDto(Users user) {
-        UsersDto userDto=UsersDto.builder()
+        UsersDto userDto = UsersDto.builder()
                 .avatar(user.getAvatar())
                 .username(user.getUsername())
+                .role(user.getRole())
+                .createdAt(user.getCreatedAt())
                 .build();
         return userDto;
     }
 
     @Override
-    public List<UsersDto> findAll() {
-        List<Users> userses=this.UserRepository.findAll(Sort.by(Sort.Direction.ASC,"createdAt"));
-        List<UsersDto>usersDtos=new ArrayList<>();
-        userses.forEach(user->{
-            usersDtos.add(this.toUserDto(user));
-        });
-        return usersDtos;
-        
+    public void deleteUser(Users user) {
+        this.UserRepository.delete(user);
     }
 
     @Override
-    public void deleteUser(Users user) {
-        this.UserRepository.delete(user);
+    public PageUserDto findAll(int page) {
+        PageRequest pageable = PageRequest.of(page, 4, Sort.by("createdAt").descending());
+        Page<Users> userPage = this.UserRepository.findAll(pageable);
+        List<UsersDto> usersDtos = new ArrayList<>();
+        userPage.getContent().forEach(u -> {
+            usersDtos.add(this.toUserDto(u));
+        });
+        PageUserDto pageUserDto = PageUserDto.builder()
+                .usersDto(usersDtos)
+                .totalPage(userPage.getTotalPages())
+                .build();
+        return pageUserDto;
+    }
+
+    @Override
+    public Users loadUserByGoogle(Map<String, String> params) {
+        Users user=this.UserRepository.findUserByUsername(params.get("username"));
+        if(user!=null){
+        
+        }
+        return user;
     }
 
 }

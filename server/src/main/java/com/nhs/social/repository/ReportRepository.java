@@ -6,6 +6,8 @@ package com.nhs.social.repository;
 
 import com.nhs.social.pojo.Report;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,7 +18,14 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Transactional
 @Repository
-public interface ReportRepository extends JpaRepository<Report, Integer>{
+public interface ReportRepository extends JpaRepository<Report, Integer> {
+
     List<Report> findByPostIdIsNull();
+
     List<Report> findByAuctionIdIsNull();
+
+    Page<Report> findByPostIdIsNotNull(Pageable pageable);
+
+    Page<Report> findByPostIdIsNull(Pageable pageable);
+
 }

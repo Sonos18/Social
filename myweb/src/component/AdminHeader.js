@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-function AdminHeader() {
+const AdminHeader =(props)=> {
+  const[search,setSearch]=useState("");
   return (
     <header className="z-40 items-center w-full h-16 bg-white shadow-lg dark:bg-gray-700 rounded-2xl">
       <div className="relative z-20 flex flex-col justify-center h-full px-3 mx-auto flex-center">
@@ -15,16 +16,17 @@ function AdminHeader() {
               <svg className="absolute left-0 z-20 hidden w-4 h-4 ml-4 text-gray-500 pointer-events-none fill-current group-hover:text-gray-400 sm:block" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                 <path d="M12.9 14.32a8 8 0 1 1 1.41-1.41l5.35 5.33-1.42 1.42-5.33-5.34zM8 14A6 6 0 1 0 8 2a6 6 0 0 0 0 12z"></path>
               </svg>
-              <input type="text" className="block w-full py-1.5 pl-10 pr-4 leading-normal rounded-2xl focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 ring-opacity-90 bg-gray-100 dark:bg-gray-800 text-gray-400 aa-input" placeholder="Search" />
-              <div className="absolute right-0 hidden h-auto px-2 py-1 mr-2 text-xs text-gray-400 border border-gray-300 rounded-2xl md:block">
+              <input onChange={(e)=>setSearch(e.target.value)}type="text" className="block w-full py-1.5 pl-10 pr-4 leading-normal rounded-2xl focus:border-transparent focus:outline-none focus:ring-2 focus:ring-blue-500 ring-opacity-90 bg-gray-100 dark:bg-gray-800 text-gray-400 aa-input" placeholder="Search" />
+              <div onClick={()=>props.handleSearch(search)} 
+              className="cursor-pointer absolute right-0 hidden h-auto px-2 py-1 mr-2 text-xs text-gray-400 border border-gray-300 rounded-2xl md:block">
                 +
               </div>
             </div>
           </div>
           <div className="relative flex items-center justify-end w-1/4 p-1 ml-5 mr-4 sm:mr-0 sm:right-auto">
-            <a href="#" className="relative block">
-              <img alt="profil" src="/images/person/1.jpg" className="mx-auto object-cover rounded-full h-10 w-10" />
-            </a>
+            <div className="relative block">
+              <img alt="profil" src={props.user.avatar} className="mx-auto object-cover rounded-full h-10 w-10" />
+            </div>
           </div>
         </div>
       </div>

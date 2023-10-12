@@ -6,9 +6,9 @@ export const makeRequest = () => {
     type: "MAKE_REQUEST",
   };
 };
-export const setPosts = (posts) => ({
+export const setPosts = (posts,totalPage) => ({
   type: "POSTS",
-  payload: posts,
+  payload: {posts,totalPage}
 });
 export const createPost = (post) => ({
   type: "CREATE_POST",
@@ -33,20 +33,26 @@ export const deletePost = (postId) => ({
   payload: postId,
 });
 
-export const FunctionPosts = () => {
+export const FunctionPosts = (page) => {
   return (dispatch) => {
-    dispatch(makeRequest);
+    dispatch(makeRequest());
+    // let formData= new FormData();
+    // formData.append("page",page);
     authApi()
-      .get(endpoints[`posts`])
+      .get(endpoints[`posts`],{params:{
+        page:page,
+      },
+    })
       .then((res) => {
-        const formattedPosts = res.data.map((post) => ({
+        const formattedPosts = res.data.postDto.map((post) => ({
           ...post,
           createAt: new Date(post.createAt).toLocaleString(),
           showComment: false,
           showPostSide: false,
           showUpdatePost: false,
         }));
-        dispatch(setPosts(formattedPosts));
+        const totalPage=res.data.totalPage;
+        dispatch(setPosts(formattedPosts,totalPage));
       })
       .catch((ex) => {
         console.info(ex);
@@ -74,7 +80,7 @@ export const FunctionUpdatePost = (id, formData) => {
 };
 export const FunctionDeletePost = (id) => {
   return (dispatch) => {
-    dispatch(makeRequest);
+    dispatch(makeRequest());
     authApi()
       .delete(endpoints["post-detail"](id))
       .then((res) => {

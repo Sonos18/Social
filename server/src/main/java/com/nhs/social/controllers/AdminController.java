@@ -4,6 +4,7 @@
  */
 package com.nhs.social.controllers;
 
+import com.nhs.social.service.AdminService;
 import com.nhs.social.service.ReportService;
 import com.nhs.social.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,9 @@ public class AdminController {
 
     @Autowired
     private UserService userService;
+    
+    @Autowired
+    private AdminService adminService;
 
     @GetMapping("reports/posts/")
     public ResponseEntity<?> listReportPost() {
@@ -53,10 +57,10 @@ public class AdminController {
     }
 
     @GetMapping("/users/")
-    public ResponseEntity<?> findAllUsers() {
+    public ResponseEntity<?> findAllUsers(@RequestParam int page) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-            return new ResponseEntity<>(this.userService.findAll(), HttpStatus.OK);
+            return new ResponseEntity<>(this.userService.findAll(page), HttpStatus.OK);
         }
         return new ResponseEntity<>("You do not have permission to this action", HttpStatus.UNAUTHORIZED);
     }
@@ -65,8 +69,25 @@ public class AdminController {
     public ResponseEntity<?> deleteUser(@RequestParam String username) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-            this.userService.deleteUser( this.userService.findUserByUsername(username));
-            return new ResponseEntity<>( HttpStatus.OK);
+            this.userService.deleteUser(this.userService.findUserByUsername(username));
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>("You do not have permission to this action", HttpStatus.UNAUTHORIZED);
+    }
+
+    @GetMapping("/charts/")
+    public ResponseEntity<?> statisticalPost(@RequestParam int year) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            return new ResponseEntity<>(this.adminService.statisticalPost(year),HttpStatus.OK);
+        }
+        return new ResponseEntity<>("You do not have permission to this action", HttpStatus.UNAUTHORIZED);
+    }
+    @GetMapping("/reports/")
+    public ResponseEntity<?> findAllReport(@RequestParam int page,@RequestParam boolean isPost) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
+            return new ResponseEntity<>(this.adminService.findAllByPosts(page,isPost),HttpStatus.OK);
         }
         return new ResponseEntity<>("You do not have permission to this action", HttpStatus.UNAUTHORIZED);
     }

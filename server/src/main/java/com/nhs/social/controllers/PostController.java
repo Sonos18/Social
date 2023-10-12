@@ -124,10 +124,11 @@ public class PostController {
     }
 
     @GetMapping("/posts/")
-    public ResponseEntity<?> list() {
+    public ResponseEntity<?> list(@RequestParam int page) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        int page=Integer.parseInt(params.get("page"));
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
-            return new ResponseEntity<>(this.postService.getPosts(), HttpStatus.OK);
+            return new ResponseEntity<>(this.postService.getPostsByPage(page), HttpStatus.OK);
         }
         return new ResponseEntity<>("You do not have permission to this action", HttpStatus.UNAUTHORIZED);
     }
