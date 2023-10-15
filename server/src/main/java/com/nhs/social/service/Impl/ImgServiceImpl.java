@@ -20,7 +20,7 @@ import org.springframework.web.multipart.MultipartFile;
  * @author sonng
  */
 @Service
-public class ImgServiceImpl implements ImgService{
+public class ImgServiceImpl implements ImgService {
 
     @Autowired
     private Cloudinary Cloudinary;
@@ -35,5 +35,6 @@ public class ImgServiceImpl implements ImgService{
             Logger.getLogger(Cloudinary.class.getName()).log(Level.SEVERE, null, ex);
         }
         return null;
+
     }
 }

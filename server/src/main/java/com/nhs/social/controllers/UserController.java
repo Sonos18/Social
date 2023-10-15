@@ -47,8 +47,8 @@ public class UserController {
     private AuthenticationManager authenticationManager;
 
     @PostMapping("/register/")
-    public ResponseEntity<?> register(@RequestParam Map<String, String> params, MultipartFile file) {
-        if (userService.addUser(params, file) != null) {
+    public ResponseEntity<?> register(@RequestParam Map<String, String> params, MultipartFile avatar) {
+        if (userService.addUser(params, avatar) != null) {
             return ResponseEntity.ok("User registered successfully!");
         }
         return new ResponseEntity<>("Failed", HttpStatus.BAD_REQUEST);

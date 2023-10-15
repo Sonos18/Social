@@ -65,19 +65,20 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Users addUser(Map<String, String> params, MultipartFile file) {
+    public Users addUser(Map<String, String> params, MultipartFile avatar) {
         Users u = new Users();
         u.setUsername(params.get("username"));
         u.setPassword(this.passwordEncoder.encode(params.get("password")));
         u.setCreatedAt(Timestamp.valueOf(LocalDateTime.now()));
         u.setEmail(params.get("email"));
         u.setRole("USER");
-        u.setAvatar(this.imgService.Cloudinary(file).get("secure_url").toString());
+        u.setAvatar(this.imgService.Cloudinary(avatar).get("secure_url").toString());
         return UserRepository.save(u);
     }
 
     @Override
     public UsersDto toUserDto(Users user) {
+        if(user==null) return null;
         UsersDto userDto = UsersDto.builder()
                 .avatar(user.getAvatar())
                 .username(user.getUsername())

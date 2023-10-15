@@ -6,6 +6,7 @@ package com.nhs.social.controllers;
 
 import com.nhs.social.Dto.ReportDto;
 import com.nhs.social.pojo.Posts;
+import com.nhs.social.pojo.Report;
 import com.nhs.social.pojo.Users;
 import com.nhs.social.service.ReportService;
 import com.nhs.social.service.UserService;
@@ -32,24 +33,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api")
 @CrossOrigin
 public class ReportController {
+
     @Autowired
     private ReportService reportService;
     @Autowired
     private UserService userService;
-    
+
     @PostMapping("/reports/{id}/")
-    public ResponseEntity<?> createReport(@RequestParam Map<String, String> params,@PathVariable(value = "id") int id) {
+    public ResponseEntity<?> createReport(@RequestParam Map<String, String> params, @PathVariable(value = "id") int id) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && !(authentication instanceof AnonymousAuthenticationToken)) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             Users currentUser = userService.findUserByUsername(userDetails.getUsername());
-            ReportDto reportDto=this.reportService.toReportDto(this.reportService.createReport(currentUser,params,id));
-            if (reportDto != null) {
+            Report r = this.reportService.createReport(currentUser, params, id);
+            if (r != null) {
+                ReportDto reportDto = this.reportService.toReportDto(r);
                 return new ResponseEntity<>(reportDto, HttpStatus.CREATED);
             }
             return new ResponseEntity<>("Post is not exit", HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
-    
+
 }

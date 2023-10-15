@@ -52,7 +52,9 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
   if (user !== null) {
+    if(user.role==="USER")
     return <Navigate to="/" />
+    else return <Navigate to="/admin"/>
   }
 
   return (

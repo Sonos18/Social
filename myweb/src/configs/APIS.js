@@ -19,7 +19,7 @@ export const endpoints = {
     "comment":(postId)=>`${SERVER_CONTEXT}api/posts/${postId}/comments/`,
     "winningBid":(auctionId)=>`${SERVER_CONTEXT}api/auction/${auctionId}/winningBid/`,
     "choseWinner":(auctionId)=>`${SERVER_CONTEXT}api/auction/${auctionId}/choseWinner/`,
-    "report":(postId)=>`${SERVER_CONTEXT}api/post/${postId}/report`,
+    "report":(postId)=>`${SERVER_CONTEXT}api/reports/${postId}/`,
     "admin-users":`${SERVER_CONTEXT}api/admin/users/`,
     "chart":`${SERVER_CONTEXT}api/admin/charts/`,
     "reports":`${SERVER_CONTEXT}api/admin/reports/`,

@@ -21,7 +21,10 @@ const ReportOfPost = () => {
       }
     };
     process();
-  });
+  },[page]);
+  const onButtonClick=(i)=>{
+    setPage(i-1);
+  }
   return (
     <div className="w-full container max-w-3xl px-4 mx-auto sm:px-8">
       <div className="py-8">
@@ -117,7 +120,7 @@ const ReportOfPost = () => {
                   })}
               </tbody>
             </table>
-            {/* <NavPage totalPage={totalPage} onButtonClick={onButtonClick}/> */}
+            <NavPage totalPage={totalPage} onButtonClick={onButtonClick}/>
           </div>
         </div>
       </div>

@@ -1,5 +1,7 @@
 import { useDispatch } from "react-redux";
 import { FunctionDeletePost, FunctionLockPost } from "../reducers/PostActions";
+// import {  useState } from "react";
+
 
 const PostOption = (props) => {
   const dispatch = useDispatch();
@@ -45,6 +47,8 @@ const PostOption = (props) => {
         <div className="flex flex-col sm:flex-row sm:justify-around">
           <div className="h-1/3 ">
             <nav className="mt-1">
+              {props.isAuth?
+              <>
               <div
                 onClick={handleUpdate}
                 className="w-full hover:text-white-800 hover:bg-gray-100 inline-block items-center p-2 transition-colors dark:hover:text-gray-600 dark:hover:bg-gray-600 duration-200 text-gray-600 dark:text-gray-400 rounded-lg"
@@ -67,6 +71,18 @@ const PostOption = (props) => {
                 <span className="px-1 text-lg font-normal">Delete</span>
                 <span className="flex-grow text-right"></span>
               </div>
+              </>:
+              <>
+               <div
+                onClick={() => props.handleReport()}
+                className="w-full hover:text-gray-800 hover:bg-gray-100 inline-block items-center p-2 transition-colors dark:hover:text-white dark:hover:bg-gray-600 duration-200 text-gray-600 dark:text-gray-400 rounded-lg"
+                to="#"
+              >
+                <span className="px-1 text-lg font-normal">Report</span>
+                <span className="flex-grow text-right"></span>
+              </div>
+              </>
+              }
             </nav>
           </div>
         </div>

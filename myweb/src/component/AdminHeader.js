@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 const AdminHeader =(props)=> {
+
   const[search,setSearch]=useState("");
   return (
     <header className="z-40 items-center w-full h-16 bg-white shadow-lg dark:bg-gray-700 rounded-2xl">
@@ -24,7 +25,8 @@ const AdminHeader =(props)=> {
             </div>
           </div>
           <div className="relative flex items-center justify-end w-1/4 p-1 ml-5 mr-4 sm:mr-0 sm:right-auto">
-            <div className="relative block">
+            <div  
+            className="relative block">
               <img alt="profil" src={props.user.avatar} className="mx-auto object-cover rounded-full h-10 w-10" />
             </div>
           </div>

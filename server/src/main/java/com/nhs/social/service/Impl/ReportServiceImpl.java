@@ -22,6 +22,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -50,16 +51,16 @@ public class ReportServiceImpl implements ReportService {
         });
         return reportDtos;
     }
+    
 
     @Override
     public Report createReport(Users user,Map<String, String> params,int id) {
         Report report=new Report();
-        report.setReason(params.get("reason"));
-        report.setReportDate(Timestamp.valueOf(LocalDateTime.now()));
         if(Boolean.parseBoolean(params.get("isPost")))
         {
             Posts p=this.postService.getPostById(id);
-            if(p==null) return null;
+            Optional<Report> reOptional = reportRepository.findReportByUserAndPost(user, p);
+            if(p==null|| reOptional.isPresent()) return null;
             report.setPostId(p);
         }else{
             Auction a=this.auctionService.getAuctionById(id);
@@ -67,6 +68,8 @@ public class ReportServiceImpl implements ReportService {
             report.setAuctionId(a);
         }
         report.setUserId(user);
+        report.setReason(params.get("reason"));
+        report.setReportDate(Timestamp.valueOf(LocalDateTime.now()));
         this.reportRepository.save(report);
         return report;
     }

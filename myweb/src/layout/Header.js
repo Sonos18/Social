@@ -1,16 +1,13 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { MyUserContext } from "../App";
-import Notification from "../component/Notification";
-import { useEffect } from "react";
-import { authApi, endpoints } from "../configs/APIS";
 
 
 const Header = ({ onSearchChange }) => {
   const [user, dispatch] = useContext(MyUserContext);
   const [activeLink, setActiveLink] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
-  const [notificationMessage, setNotificationMessage] = useState("");
+  // const [notificationMessage, setNotificationMessage] = useState("");
   const navigate = useNavigate();
   const handleShowNotification = () => {
     if (user !== null) {
@@ -21,7 +18,7 @@ const Header = ({ onSearchChange }) => {
 
   }
   const [amount, setamount] = useState(0)
-  // const [notification, setNotification] = useState("");
+  const [notification, setNotification] = useState("");
   // useEffect(() => {
   //   const loadNotification = async () => {
   //     if (user !== null) {
@@ -61,7 +58,7 @@ const Header = ({ onSearchChange }) => {
   }
   const links = [
     { text: "Home", link: "/" },
-    { text: "Logs", link: "/admin" },
+    // { text: "Logs", link: "/admin" },
     { text: "Auctions", link: "/auction" },
     { text: "About", link: "/about" }
   ];

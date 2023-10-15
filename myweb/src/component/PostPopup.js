@@ -30,7 +30,6 @@ const PostPopup = (props) => {
       loadPost();
     }
   }, []);
-  const handleClose = () => nav("/");
   const handleCloseUpdate = () => {
     props.handleUpdatePost(props.id,false);
   };
@@ -42,13 +41,10 @@ const PostPopup = (props) => {
     formData.append("hashtags", JSON.stringify(hashtags || [null]));
     formData.append("imgFile", imgFile.current.files[0] || null);
     console.info(formData.get("hashtags"));
-    // props.handleLoading();
     dispatch(FunctionCreatePost(formData));
-    // props.handleLoading();
     props.handleClose();
   };
-  const handleUpdate = (e) => {
-    e.preventDefault();
+  const handleUpdate = () => {
     const process = async () => {
       let formData = new FormData();
       const hashtags = contentTamp.match(/#\w+\b/g);
@@ -59,6 +55,7 @@ const PostPopup = (props) => {
       imgFile.current.value = "";
       formData.append("id", props.id);
      dispatch(FunctionUpdatePost(props.id,formData));
+    //  handleCloseUpdate();
     };
     process();
   };

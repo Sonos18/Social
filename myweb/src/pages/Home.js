@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { FunctionPosts, updatePost } from "../reducers/PostActions";
 import Loading from "../component/Loading";
 import NavPage from "../component/NavPage";
+import ReportPopUp from "../component/ReportPopUp";
 
 const Home = ({ searchTerm }) => {
   const [username, setUserName] = useState(null);
@@ -25,6 +26,8 @@ const Home = ({ searchTerm }) => {
   const posts = useSelector((state) => state.posts.posts);
   const totalPage = useSelector((state) => state.posts.totalPage);
   const [page, setPage] = useState(0);
+  const [report,setReport]= useState(false);
+
   useEffect(() => {
     if (user === null) navigate("/login");
     else {
@@ -35,8 +38,8 @@ const Home = ({ searchTerm }) => {
   const onButtonClick=(i)=>{
     setPage(i-1);
   }
-  if (isLoading) {
-    return <div>Loading...</div>;
+  const handleReport=()=>{
+    setReport(!report);
   }
   // useEffect(() => {
   //   if (user !== null) setUserName(user.username);
@@ -78,11 +81,12 @@ const Home = ({ searchTerm }) => {
   };
   // setPosts(com);
   //PostPopUp
+
   const handleOpen = () => {
     setIsOpen(true);
   };
-  const handleLoading = () => {
-    setIsLoading(!isLoading);
+  const handleLoading = (loading) => {
+    setIsLoading(loading);
   };
   const handleClose = () => setIsOpen(false);
 
@@ -112,23 +116,6 @@ const Home = ({ searchTerm }) => {
     process(postId);
   };
 
-  //Filter Posts
-
-  // useEffect(() => {
-  //   if (!searchTerm) {
-  //     setFilteredPosts(posts);
-  //   } else {
-  //     const lowercaseSearchValue = searchTerm.trim().toLowerCase();
-  //     const filtered = posts.filter((post) =>
-  //       post.hashtags.some(
-  //         (h) =>
-  //           h.toLowerCase().includes(lowercaseSearchValue) ||
-  //           post.usersDto.username.toLowerCase().includes(lowercaseSearchValue)
-  //       )
-  //     );
-  //     setFilteredPosts(filtered);
-  //   }
-  // }, [searchTerm, posts]);
   return (
     <>
       {posts &&
@@ -171,8 +158,16 @@ const Home = ({ searchTerm }) => {
                           </svg>
                         </div>
                         {p.showPostSide && (
+                          report?<>
+                          <ReportPopUp 
+                          handleLoading={handleLoading}
+                          id={p.id} 
+                          handleShowReport={handleReport}/>
+                          </>:
                           <div className="bottom-0 absolute bg-blue-100 dark:bg-gray-800 top-8 right-8 transform translate-x-1/2 -translate-y-full">
                             <PostOption
+                              handleReport={handleReport}
+                              isAuth={user.username===p.usersDto.username}
                               id={p.id}
                               handleUpdatePost={handleUpdatePost}
                             />
@@ -208,7 +203,7 @@ const Home = ({ searchTerm }) => {
                       <Like
                         like={p.usernameLike}
                         id={p.id}
-                        username={username}
+                        username={user.username}
                       />
                       <Comment
                         handleShowComment={() =>
